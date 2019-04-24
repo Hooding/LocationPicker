@@ -94,14 +94,14 @@ open class LocationPickerViewController: UIViewController {
 		return results
 	}()
 	
-	lazy var searchController: UISearchController = {
+	open lazy var searchController: UISearchController = {
 		let search = UISearchController(searchResultsController: self.results)
 		search.searchResultsUpdater = self
 		search.hidesNavigationBarDuringPresentation = false
 		return search
 	}()
 	
-	lazy var searchBar: UISearchBar = {
+	open lazy var searchBar: UISearchBar = {
 		let searchBar = self.searchController.searchBar
 		searchBar.searchBarStyle = self.searchBarStyle
 		searchBar.placeholder = self.searchBarPlaceholder
