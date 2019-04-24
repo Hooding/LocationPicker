@@ -16,35 +16,35 @@ open class LocationPickerViewController: UIViewController {
 		let action: (CLLocation) -> ()
 	}
 	
-	public var completion: ((Location?) -> ())?
+	open var completion: ((Location?) -> ())?
 	
 	// region distance to be used for creation region when user selects place from search results
-	public var resultRegionDistance: CLLocationDistance = 600
+	open var resultRegionDistance: CLLocationDistance = 600
 	
 	/// default: true
-	public var showCurrentLocationButton = true
+	open var showCurrentLocationButton = true
 	
 	/// default: true
-	public var showCurrentLocationInitially = true
+	open var showCurrentLocationInitially = true
 
     /// default: false
     /// Select current location only if `location` property is nil.
-    public var selectCurrentLocationInitially = false
+    open var selectCurrentLocationInitially = false
 	
 	/// see `region` property of `MKLocalSearchRequest`
 	/// default: false
-	public var useCurrentLocationAsHint = false
+	open var useCurrentLocationAsHint = false
 	
 	/// default: "Search or enter an address"
-	public var searchBarPlaceholder = "Search or enter an address"
+	open var searchBarPlaceholder = "Search or enter an address"
 	
 	/// default: "Search History"
-	public var searchHistoryLabel = "Search History"
+	open var searchHistoryLabel = "Search History"
     
     /// default: "Select"
-    public var selectButtonTitle = "Select"
+    open var selectButtonTitle = "Select"
 	
-	lazy public var currentLocationButtonBackground: UIColor = {
+	lazy open var currentLocationButtonBackground: UIColor = {
 		if let navigationBar = self.navigationController?.navigationBar,
 			let barTintColor = navigationBar.barTintColor {
 				return barTintColor
@@ -52,12 +52,12 @@ open class LocationPickerViewController: UIViewController {
 	}()
     
     /// default: .Minimal
-    public var searchBarStyle: UISearchBar.Style = .minimal
+    open var searchBarStyle: UISearchBar.Style = .minimal
 
 	/// default: .Default
-	public var statusBarStyle: UIStatusBarStyle = .default
+	open var statusBarStyle: UIStatusBarStyle = .default
 	
-	public var mapType: MKMapType = .hybrid {
+	open var mapType: MKMapType = .hybrid {
 		didSet {
 			if isViewLoaded {
 				mapView.mapType = mapType
@@ -65,7 +65,7 @@ open class LocationPickerViewController: UIViewController {
 		}
 	}
 	
-	public var location: Location? {
+	open var location: Location? {
 		didSet {
 			if isViewLoaded {
 				searchBar.text = location.flatMap({ $0.title }) ?? ""
@@ -377,7 +377,7 @@ extension LocationPickerViewController: MKMapViewDelegate {
 		return button
 	}
 	
-	public func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+	open func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
 		completion?(location)
 		if let navigation = navigationController, navigation.viewControllers.count > 1 {
 			navigation.popViewController(animated: true)
@@ -386,7 +386,7 @@ extension LocationPickerViewController: MKMapViewDelegate {
 		}
 	}
 	
-	public func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+	open func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
 		let pins = mapView.annotations.filter { $0 is MKPinAnnotationView }
 		assert(pins.count <= 1, "Only 1 pin annotation should be on map at a time")
 
@@ -397,7 +397,7 @@ extension LocationPickerViewController: MKMapViewDelegate {
 }
 
 extension LocationPickerViewController: UIGestureRecognizerDelegate {
-    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    open func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
@@ -405,7 +405,7 @@ extension LocationPickerViewController: UIGestureRecognizerDelegate {
 // MARK: UISearchBarDelegate
 
 extension LocationPickerViewController: UISearchBarDelegate {
-	public func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+	open func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
 		// dirty hack to show history when there is no text in search bar
 		// to be replaced later (hopefully)
 		if let text = searchBar.text, text.isEmpty {
@@ -413,7 +413,7 @@ extension LocationPickerViewController: UISearchBarDelegate {
 		}
 	}
 	
-	public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+	open func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		// remove location if user presses clear or removes text
 		if searchText.isEmpty {
 			location = nil
